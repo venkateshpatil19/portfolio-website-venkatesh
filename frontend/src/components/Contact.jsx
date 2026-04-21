@@ -11,7 +11,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      const response = await fetch("http://13.63.73.39:5000/api/contact", {
+      const response = await fetch("http://portfolio-alb-600767199.eu-north-1.elb.amazonaws.com/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
