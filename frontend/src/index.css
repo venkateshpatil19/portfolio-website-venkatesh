@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 transition-colors duration-500 overflow-x-hidden antialiased;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+  
+  .dark body {
+    @apply bg-slate-900 text-slate-200;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl transition-colors duration-500;
+  }
+  
+  .dark .glass-panel {
+    @apply bg-[#1e293b]/60 border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)];
+  }
+
+  .glass-nav {
+    @apply bg-white/60 backdrop-blur-xl border-b border-white/40 shadow-sm transition-colors duration-500;
+  }
+  
+  .dark .glass-nav {
+    @apply bg-[#0f172a]/80 border-slate-800 shadow-[0_4px_20px_rgb(0,0,0,0.4)];
+  }
+  
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold 
+           shadow-[0_4px_14px_0_rgba(79,70,229,0.39)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.23)] 
+           hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl bg-white/80 backdrop-blur-md border border-primary/20 text-primary font-semibold 
+           hover:bg-white hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2;
+  }
+  
+  .dark .btn-secondary {
+    @apply bg-[#1e293b]/80 border-primary/40 text-slate-200 hover:bg-[#1e293b] hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)];
+  }
+
+  /* Animated Blob Layer */
+  .layer-bg {
+    @apply fixed inset-0 z-0 pointer-events-none overflow-hidden transition-colors duration-500;
+  }
+  
+  .layer-mid {
+    @apply relative z-10;
+  }
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-50 dark:bg-slate-900 transition-colors duration-500;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded transition-colors duration-500;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400 dark:bg-slate-600;
+}
