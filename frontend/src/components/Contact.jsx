@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle } from 'lucide-react';
-import axios from 'axios';
 import ParticleButton from './ui/ParticleButton';
 
 const Contact = () => {
@@ -12,12 +11,27 @@ const Contact = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      await axios.post('https://formsubmit.co/ajax/try.venkatesh91@gmail.com', formData);
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      const response = await fetch("http://13.61.24.128:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error) {
       console.error(error);
-      alert('Failed to send message. Please try again later.');
+      alert('Failed to send message');
       setStatus('idle');
     }
   };
