@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
+const nodemailer = require('nodemailer');
+
+// Setup Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 // POST /api/contact
 router.post('/', async (req, res) => {
@@ -11,13 +21,24 @@ router.post('/', async (req, res) => {
   }
 
   try {
+    // 1. Save to database
     const query = 'INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)';
-    const [result] = await pool.execute(query, [name, email, message]);
+    await pool.execute(query, [name, email, message]);
     
-    res.status(201).json({ success: true, message: 'Message saved successfully.' });
+    // 2. Send email notification
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'try.venkatesh91@gmail.com',
+      subject: `New Portfolio Message from ${name}`,
+      text: `You have received a new message from your portfolio website.\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json({ success: true, message: 'Message saved and email sent successfully.' });
   } catch (error) {
-    console.error('Database insertion error:', error);
-    res.status(500).json({ success: false, error: 'Internal server error. Failed to save message.' });
+    console.error('Error in contact route:', error);
+    res.status(500).json({ success: false, error: 'Internal server error. Failed to process message.' });
   }
 });
 

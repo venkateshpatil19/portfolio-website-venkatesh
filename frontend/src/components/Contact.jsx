@@ -12,7 +12,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      await axios.post('http://13.61.10.205/api/contact', formData);
+      await axios.post('https://formsubmit.co/ajax/try.venkatesh91@gmail.com', formData);
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
